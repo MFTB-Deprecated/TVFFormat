@@ -11,6 +11,7 @@ import java.util.zip.GZIPInputStream;
 import java.util.zip.GZIPOutputStream;
 
 import net.turrem.tvf.layer.TVFLayer;
+import net.turrem.tvf.layer.TVFLayerFaces;
 
 public class TVFFile
 {
@@ -80,19 +81,20 @@ public class TVFFile
 		}
 		else
 		{
+			data.writeByte(0xFF);
 			layer.writeLayer(data);
 		}
 	}
 
 	private TVFLayer readLayer(DataInputStream data) throws IOException
 	{
-		int type = data.readByte() & 0xFF;
-		TVFLayer layer = TVFLayer.make(type);
-		if (layer != null)
+		if (data.readByte() == 0xFF)
 		{
+			TVFLayer layer = new TVFLayerFaces();
 			layer.readLayer(data);
+			return layer;
 		}
-		return layer;
+		return null;
 	}
 
 	public TVFFile read(File file) throws IOException

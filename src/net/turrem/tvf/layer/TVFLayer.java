@@ -5,31 +5,26 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 
 public abstract class TVFLayer
-{
-	public static TVFLayer make(int type) throws IOException
-	{
-		switch (type)
-		{
-			case 0:
-				return null;
-			default:
-				return null;
-		}
-	}
+{	
+	public short xOffset;
+	public short yOffset;
+	public short zOffset;
 
 	public void readLayer(DataInputStream data) throws IOException
 	{
-		
+		this.xOffset = data.readShort();
+		this.yOffset = data.readShort();
+		this.zOffset = data.readShort();
 	}
 	
 	protected abstract void readData(DataInputStream data) throws IOException;
 	
 	public void writeLayer(DataOutputStream data) throws IOException
 	{
-		data.writeByte(this.getType());
+		data.writeShort(this.xOffset);
+		data.writeShort(this.yOffset);
+		data.writeShort(this.zOffset);
 	}
 
 	protected abstract void writeData(DataOutputStream data) throws IOException;
-	
-	public abstract int getType();
 }
