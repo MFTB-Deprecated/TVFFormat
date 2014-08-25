@@ -15,7 +15,7 @@ public class TVFPaletteDynamic extends TVFPaletteColor
 	}
 	
 	public EnumDynamicColorMode mode;
-	public int colorChannel;
+	public byte colorChannel;
 	
 	@Override
 	public int getType()
@@ -28,7 +28,7 @@ public class TVFPaletteDynamic extends TVFPaletteColor
 	{
 		super.readPalette(data);
 		this.mode = EnumDynamicColorMode.values()[data.readByte() & 0xFF];
-		this.colorChannel = data.readByte() & 0xFF;
+		this.colorChannel = data.readByte();
 	}
 
 	@Override
@@ -36,6 +36,6 @@ public class TVFPaletteDynamic extends TVFPaletteColor
 	{
 		super.writePalette(data);
 		data.writeByte(this.mode.ordinal());
-		data.writeByte(this.colorChannel);
+		data.writeByte(this.colorChannel & 0xFF);
 	}
 }
