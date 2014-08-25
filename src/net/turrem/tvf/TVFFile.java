@@ -16,14 +16,35 @@ import net.turrem.tvf.rendermodel.TVFRenderModel;
 
 public class TVFFile
 {
+	/**
+	 * TVF file magic number
+	 */
 	public final byte[] magic = { 'T', 'V', 'F', 0x00 };
+	/**
+	 * Major file format version
+	 */
 	public final short majorVersion = 1;
+	/**
+	 * Minor file format version
+	 */
 	public final short minorVersion = 0;
 
+	/**
+	 * The total width (x) of the 3D model
+	 */
 	public short width;
+	/**
+	 * The total height (y) of the 3D model
+	 */
 	public short height;
+	/**
+	 * The total length (z) of the 3D model
+	 */
 	public short length;
 
+	/**
+	 * The layers that comprise this model
+	 */
 	public final TVFLayer[] layers = new TVFLayer[256];
 
 	public TVFFile()
@@ -31,6 +52,10 @@ public class TVFFile
 
 	}
 
+	/**
+	 * Passes each TVFLayer in this model to the provided interface so that they can be loaded by a custom renderer
+	 * @param render The interface to call to
+	 */
 	public void loadLayers(ITVFRenderInterface render)
 	{
 		if (render != null)
@@ -45,6 +70,11 @@ public class TVFFile
 		}
 	}
 
+	/**
+	 * Makes the function calls necessary to render the model in the dynamic state defined by the given parameters to the given interface 
+	 * @param render The interface to call to
+	 * @param pars The array of parameters that controls the dynamic elements of the model
+	 */
 	public void renderLayers(ITVFRenderInterface render, Object[] pars)
 	{
 		if (render != null)
@@ -68,6 +98,10 @@ public class TVFFile
 		}
 	}
 	
+	/**
+	 * Gets a class to provide necessary render calls equivalent to those provided by {@link #renderLayers(ITVFRenderInterface, Object[]) renderLayers} without storing most of the file's data
+	 * @return A class to provide render calls
+	 */
 	public TVFRenderModel getRender()
 	{
 		return new TVFRenderModel(this);
@@ -140,6 +174,12 @@ public class TVFFile
 		return null;
 	}
 
+	/**
+	 * Reads a new TVFFile
+	 * @param file The file to read from
+	 * @return The new TVFFile
+	 * @throws IOException If something goes wrong
+	 */
 	public TVFFile read(File file) throws IOException
 	{
 		DataInputStream input = new DataInputStream(new GZIPInputStream(new FileInputStream(file)));
@@ -149,6 +189,12 @@ public class TVFFile
 		return tvf;
 	}
 
+	/**
+	 * Writes a TVFFile
+	 * @param file The file to write to
+	 * @param tvf The TVFFile to write
+	 * @throws IOException If something goes wrong
+	 */
 	public void write(File file, TVFFile tvf) throws IOException
 	{
 		DataOutputStream output = new DataOutputStream(new GZIPOutputStream(new FileOutputStream(file)));

@@ -6,6 +6,9 @@ import net.turrem.tvf.color.TVFPalette;
 import net.turrem.tvf.layer.TVFLayer;
 import net.turrem.tvf.layer.TVFLayerFaces;
 
+/**
+ * A class to provide necessary render calls equivalent to those provided by {@link net.turrem.tvf.TVFFile#renderLayers(ITVFRenderInterface, Object[]) renderLayers} without storing most of the file's data
+ */
 public class TVFRenderModel
 {
 	protected static class TVFRenderModelLayer
@@ -69,6 +72,11 @@ public class TVFRenderModel
 		}
 	}
 
+	/**
+	 * Makes the function calls necessary to render the model in the dynamic state defined by the given parameters to the given interface 
+	 * @param render The interface to call to
+	 * @param pars The array of parameters that controls the dynamic elements of the model
+	 */
 	public void render(ITVFRenderInterface render, Object[] pars)
 	{
 		if (render != null)
