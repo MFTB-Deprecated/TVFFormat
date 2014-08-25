@@ -12,6 +12,7 @@ import java.util.zip.GZIPOutputStream;
 
 import net.turrem.tvf.layer.TVFLayer;
 import net.turrem.tvf.layer.TVFLayerFaces;
+import net.turrem.tvf.rendermodel.TVFRenderModel;
 
 public class TVFFile
 {
@@ -23,7 +24,7 @@ public class TVFFile
 	public short height;
 	public short length;
 
-	public TVFLayer[] layers = new TVFLayer[256];
+	public final TVFLayer[] layers = new TVFLayer[256];
 
 	public TVFFile()
 	{
@@ -65,6 +66,11 @@ public class TVFFile
 				}
 			}
 		}
+	}
+	
+	public TVFRenderModel getRender()
+	{
+		return new TVFRenderModel(this);
 	}
 
 	private void write(DataOutputStream data) throws IOException
