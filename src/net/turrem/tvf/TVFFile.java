@@ -30,6 +30,43 @@ public class TVFFile
 
 	}
 
+	public void loadLayers(ITVFRenderInterface render)
+	{
+		if (render != null)
+		{
+			for (int i = 0; i < this.layers.length; i++)
+			{
+				if (this.layers[i] != null)
+				{
+					render.loadLayer(i, this.layers[i]);
+				}
+			}
+		}
+	}
+
+	public void renderLayers(ITVFRenderInterface render, Object[] pars)
+	{
+		if (render != null)
+		{
+			for (int i = 0; i < this.layers.length; i++)
+			{
+				TVFLayer layer = this.layers[i];
+				if (layer != null)
+				{
+					Object vis = pars[layer.visibleChannel & 0xFF];
+					if (vis instanceof Boolean && (boolean) vis)
+					{
+						layer.render(render, pars, i);
+					}
+					else
+					{
+						render.renderLayer(i, vis);
+					}
+				}
+			}
+		}
+	}
+
 	private void write(DataOutputStream data) throws IOException
 	{
 		data.write(this.magic);

@@ -8,9 +8,28 @@ import net.turrem.tvf.layer.TVFLayerFaces;
 
 public class TVFFace
 {
+	public static enum EnumFaceDirection
+	{
+		XUP((byte) 0),
+		XDOWN((byte) 1),
+		YUP((byte) 2),
+		YDOWN((byte) 3),
+		ZUP((byte) 4),
+		ZDOWN((byte) 5);
+		
+		public static final EnumFaceDirection[] dirs = new EnumFaceDirection[] {XUP, XDOWN, YUP, YDOWN, ZUP, ZDOWN};
+		public final byte num;
+		
+		EnumFaceDirection(byte num)
+		{
+			this.num = num;
+		}
+	}
+	
 	public byte x;
 	public byte y;
 	public byte z;
+	public byte direction;
 	public byte color;
 	public byte[] lighting;
 	

@@ -6,42 +6,42 @@ import java.io.IOException;
 
 import net.turrem.tvf.ITVFRenderInterface;
 
-public class TVFPaletteDynamic extends TVFPaletteColor
-{	
-	public EnumDynamicColorMode mode;
-	public byte colorChannel;
-	
+public class TVFPaletteShader extends TVFPaletteColor
+{
+	public String shader;
+	public byte uniformChannel;
+
 	@Override
 	public int getType()
 	{
-		return 2;
+		return 3;
 	}
-	
+
 	@Override
 	public void readPalette(DataInputStream data) throws IOException
 	{
 		super.readPalette(data);
-		this.mode = EnumDynamicColorMode.values()[data.readByte() & 0xFF];
-		this.colorChannel = data.readByte();
+		this.shader = data.readUTF();
+		this.uniformChannel = data.readByte();
 	}
 
 	@Override
 	public void writePalette(DataOutputStream data) throws IOException
 	{
 		super.writePalette(data);
-		data.writeByte(this.mode.ordinal());
-		data.writeByte(this.colorChannel & 0xFF);
+		data.writeUTF(this.shader);
+		data.writeByte(this.uniformChannel);
 	}
 	
 	@Override
 	public void startRender(ITVFRenderInterface render, Object[] pars)
 	{
-		render.setDynamicColor(this.mode, pars[this.colorChannel & 0xFF]);
+		render.setShader(this.shader, pars[this.uniformChannel & 0xFF]);
 	}
 
 	@Override
 	public void clearRender(ITVFRenderInterface render)
 	{
-		render.clearDynamicColor();
+		render.clearShader();
 	}
 }

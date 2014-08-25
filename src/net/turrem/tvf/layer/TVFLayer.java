@@ -4,17 +4,28 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 
+import net.turrem.tvf.ITVFRenderInterface;
+
 public abstract class TVFLayer
 {	
 	public short xOffset;
 	public short yOffset;
 	public short zOffset;
+	
+	public byte visibleChannel = 0;
+	
+	public void render(ITVFRenderInterface render, Object[] pars, int index)
+	{
+		render.renderLayer(index);
+	}
 
 	public void readLayer(DataInputStream data) throws IOException
 	{
 		this.xOffset = data.readShort();
 		this.yOffset = data.readShort();
 		this.zOffset = data.readShort();
+		this.visibleChannel = data.readByte();
+		this.readData(data);
 	}
 	
 	protected abstract void readData(DataInputStream data) throws IOException;
@@ -24,6 +35,8 @@ public abstract class TVFLayer
 		data.writeShort(this.xOffset);
 		data.writeShort(this.yOffset);
 		data.writeShort(this.zOffset);
+		data.writeByte(this.visibleChannel);
+		this.writeData(data);
 	}
 
 	protected abstract void writeData(DataOutputStream data) throws IOException;

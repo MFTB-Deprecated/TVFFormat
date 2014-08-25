@@ -4,6 +4,8 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 
+import net.turrem.tvf.ITVFRenderInterface;
+
 public class TVFPaletteColor extends TVFPalette
 {
 	public TVFColor[] palette = new TVFColor[256];
@@ -28,5 +30,15 @@ public class TVFPaletteColor extends TVFPalette
 		{
 			TVFColor.write(data, this.palette[i]);
 		}
+	}
+
+	@Override
+	public void startRender(ITVFRenderInterface render, Object[] pars)
+	{
+	}
+
+	@Override
+	public void clearRender(ITVFRenderInterface render)
+	{
 	}
 }

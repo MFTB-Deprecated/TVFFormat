@@ -5,6 +5,7 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import net.turrem.tvf.ITVFRenderInterface;
 import net.turrem.tvf.color.TVFPalette;
 import net.turrem.tvf.face.EnumLightingType;
 import net.turrem.tvf.face.TVFFace;
@@ -18,6 +19,14 @@ public class TVFLayerFaces extends TVFLayer
 	public TVFLayerFaces()
 	{
 		this.faces = new ArrayList<TVFFace>();
+	}
+	
+	@Override
+	public void render(ITVFRenderInterface render, Object[] pars, int index)
+	{
+		this.palette.startRender(render, pars);
+		render.renderLayer(index);
+		this.palette.clearRender(render);
 	}
 	
 	@Override

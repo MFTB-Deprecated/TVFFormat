@@ -4,6 +4,8 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 
+import net.turrem.tvf.ITVFRenderInterface;
+
 public abstract class TVFPalette
 {
 	public static TVFPalette make(int type)
@@ -14,11 +16,17 @@ public abstract class TVFPalette
 				return new TVFPaletteColor();
 			case 2:
 				return new TVFPaletteDynamic();
+			case 3:
+				return new TVFPaletteShader();
 			default:
 				return null;
 		}
 	}
-
+	
+	public abstract void startRender(ITVFRenderInterface render, Object[] pars);
+	
+	public abstract void clearRender(ITVFRenderInterface render);
+	
 	public abstract int getType();
 
 	protected abstract void readPalette(DataInputStream data) throws IOException;
