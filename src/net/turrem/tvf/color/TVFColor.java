@@ -24,6 +24,11 @@ public class TVFColor
 		this.blue = (byte) blue;
 	}
 
+	public TVFColor(int i)
+	{
+		this((i >> 0) & 0xFF, (i >> 8) & 0xFF, (i >> 16) & 0xFF);
+	}
+
 	public byte getRed()
 	{
 		return this.red;
