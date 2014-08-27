@@ -6,6 +6,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.zip.GZIPInputStream;
 import java.util.zip.GZIPOutputStream;
@@ -27,7 +28,7 @@ public class TVFFile
 	/**
 	 * Minor file format version
 	 */
-	public final short minorVersion = 0;
+	public final short minorVersion = 1;
 
 	/**
 	 * The total width (x) of the 3D model
@@ -45,29 +46,11 @@ public class TVFFile
 	/**
 	 * The layers that comprise this model
 	 */
-	public final TVFLayer[] layers = new TVFLayer[256];
+	public ArrayList<TVFLayer> layers = new ArrayList<TVFLayer>();
 
 	public TVFFile()
 	{
 
-	}
-
-	/**
-	 * Passes each TVFLayer in this model to the provided interface so that they can be loaded by a custom renderer
-	 * @param render The interface to call to
-	 */
-	public void loadLayers(ITVFRenderInterface render)
-	{
-		if (render != null)
-		{
-			for (int i = 0; i < this.layers.length; i++)
-			{
-				if (this.layers[i] != null)
-				{
-					render.loadLayer(i, this.layers[i]);
-				}
-			}
-		}
 	}
 
 	/**
@@ -79,9 +62,9 @@ public class TVFFile
 	{
 		if (render != null)
 		{
-			for (int i = 0; i < this.layers.length; i++)
+			for (int i = 0; i < this.layers.size(); i++)
 			{
-				TVFLayer layer = this.layers[i];
+				TVFLayer layer = this.layers.get(i);
 				if (layer != null)
 				{
 					Object vis = pars[layer.visibleChannel & 0xFF];
@@ -117,9 +100,11 @@ public class TVFFile
 		data.writeShort(this.height);
 		data.writeShort(this.length);
 
-		for (int i = 0; i < 256; i++)
+		int layernum = Math.min(this.layers.size(), Short.MAX_VALUE);
+		data.writeShort(layernum);
+		for (int i = 0; i < layernum; i++)
 		{
-			this.writeLayer(data, this.layers[i]);
+			this.writeLayer(data, this.layers.get(i));
 		}
 	}
 
@@ -144,10 +129,13 @@ public class TVFFile
 		this.height = data.readShort();
 		this.length = data.readShort();
 
-		for (int i = 0; i < 256; i++)
+		short layernum = data.readShort();
+		this.layers.ensureCapacity(layernum);
+		for (int i = 0; i < layernum; i++)
 		{
-			this.layers[i] = this.readLayer(data);
+			this.layers.add(this.readLayer(data));
 		}
+		this.layers.trimToSize();
 	}
 
 	private void writeLayer(DataOutputStream data, TVFLayer layer) throws IOException
@@ -180,7 +168,7 @@ public class TVFFile
 	 * @return The new TVFFile
 	 * @throws IOException If something goes wrong
 	 */
-	public TVFFile read(File file) throws IOException
+	public static TVFFile read(File file) throws IOException
 	{
 		DataInputStream input = new DataInputStream(new GZIPInputStream(new FileInputStream(file)));
 		TVFFile tvf = new TVFFile();
@@ -195,7 +183,7 @@ public class TVFFile
 	 * @param tvf The TVFFile to write
 	 * @throws IOException If something goes wrong
 	 */
-	public void write(File file, TVFFile tvf) throws IOException
+	public static void write(File file, TVFFile tvf) throws IOException
 	{
 		DataOutputStream output = new DataOutputStream(new GZIPOutputStream(new FileOutputStream(file)));
 		tvf.write(output);

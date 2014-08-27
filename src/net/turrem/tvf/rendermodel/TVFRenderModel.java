@@ -63,11 +63,11 @@ public class TVFRenderModel
 	public TVFRenderModel(TVFFile tvf)
 	{
 		this.layers = new TVFRenderModelLayer[256];
-		for (int i = 0; i < 256; i++)
+		for (int i = 0; i < tvf.layers.size(); i++)
 		{
-			if (tvf.layers[i] != null)
+			if (tvf.layers.get(i) != null)
 			{
-				this.layers[i] = new TVFRenderModelLayer(tvf.layers[i]);
+				this.layers[i] = new TVFRenderModelLayer(tvf.layers.get(i));
 			}
 		}
 	}
