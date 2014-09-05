@@ -54,9 +54,12 @@ public class TVFFile
 	}
 
 	/**
-	 * Makes the function calls necessary to render the model in the dynamic state defined by the given parameters to the given interface 
+	 * Makes the function calls necessary to render the model in the dynamic
+	 * state defined by the given parameters to the given interface
+	 * 
 	 * @param render The interface to call to
-	 * @param pars The array of parameters that controls the dynamic elements of the model
+	 * @param pars The array of parameters that controls the dynamic elements of
+	 *            the model
 	 */
 	public void renderLayers(ITVFRenderInterface render, Object[] pars)
 	{
@@ -67,22 +70,17 @@ public class TVFFile
 				TVFLayer layer = this.layers.get(i);
 				if (layer != null)
 				{
-					Object vis = pars[layer.visibleChannel & 0xFF];
-					if (vis instanceof Boolean && (boolean) vis)
-					{
-						layer.render(render, pars, i);
-					}
-					else
-					{
-						render.renderLayer(i, vis);
-					}
+					layer.render(render, pars, i);
 				}
 			}
 		}
 	}
-	
+
 	/**
-	 * Gets a class to provide necessary render calls equivalent to those provided by {@link #renderLayers(ITVFRenderInterface, Object[]) renderLayers} without storing most of the file's data
+	 * Gets a class to provide necessary render calls equivalent to those
+	 * provided by {@link #renderLayers(ITVFRenderInterface, Object[])
+	 * renderLayers} without storing most of the file's data
+	 * 
 	 * @return A class to provide render calls
 	 */
 	public TVFRenderModel getRender()
@@ -164,6 +162,7 @@ public class TVFFile
 
 	/**
 	 * Reads a new TVFFile
+	 * 
 	 * @param file The file to read from
 	 * @return The new TVFFile
 	 * @throws IOException If something goes wrong
@@ -179,6 +178,7 @@ public class TVFFile
 
 	/**
 	 * Writes a TVFFile
+	 * 
 	 * @param file The file to write to
 	 * @param tvf The TVFFile to write
 	 * @throws IOException If something goes wrong

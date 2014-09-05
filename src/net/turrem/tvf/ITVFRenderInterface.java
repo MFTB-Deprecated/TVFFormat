@@ -13,6 +13,4 @@ public interface ITVFRenderInterface
 	public void clearShader();
 	
 	public void renderLayer(int layerindex);
-	
-	public void renderLayer(int layerindex, Object visiblePar);
 }

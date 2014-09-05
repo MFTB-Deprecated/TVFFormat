@@ -13,6 +13,7 @@ public class TVFFace
 	public byte z;
 	public byte direction;
 	public byte color;
+	public byte[] lighting = new byte[4];
 
 	protected void readData(DataInputStream data) throws IOException
 	{
@@ -20,6 +21,7 @@ public class TVFFace
 		this.y = data.readByte();
 		this.z = data.readByte();
 		this.color = data.readByte();
+		data.readFully(this.lighting);
 	}
 
 	protected void writeData(DataOutputStream data) throws IOException
