@@ -7,13 +7,11 @@ import java.util.ArrayList;
 
 import net.turrem.tvf.ITVFRenderInterface;
 import net.turrem.tvf.color.TVFPalette;
-import net.turrem.tvf.face.EnumLightingType;
 import net.turrem.tvf.face.TVFFace;
 
 public class TVFLayerFaces extends TVFLayer
 {	
 	public TVFPalette palette;
-	public EnumLightingType prelightType;
 	public ArrayList<TVFFace> faces;
 	
 	public TVFLayerFaces()
@@ -37,7 +35,7 @@ public class TVFLayerFaces extends TVFLayer
 		this.faces.ensureCapacity(faceCount);
 		for (int i = 0; i < faceCount; i++)
 		{
-			this.faces.add(TVFFace.read(data, this));
+			this.faces.add(TVFFace.read(data));
 		}
 		this.faces.trimToSize();
 	}

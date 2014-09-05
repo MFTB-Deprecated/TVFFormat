@@ -28,7 +28,7 @@ public class TVFFile
 	/**
 	 * Minor file format version
 	 */
-	public final short minorVersion = 1;
+	public final short minorVersion = 2;
 
 	/**
 	 * The total width (x) of the 3D model
