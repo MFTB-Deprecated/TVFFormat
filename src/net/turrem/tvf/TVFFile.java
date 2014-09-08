@@ -169,7 +169,15 @@ public class TVFFile
 	 */
 	public static TVFFile read(File file) throws IOException
 	{
-		DataInputStream input = new DataInputStream(new GZIPInputStream(new FileInputStream(file)));
+		DataInputStream input;
+		try
+		{
+			input = new DataInputStream(new GZIPInputStream(new FileInputStream(file)));
+		}
+		catch (IOException e)
+		{
+			input = new DataInputStream(new FileInputStream(file));
+		}
 		TVFFile tvf = new TVFFile();
 		tvf.read(input);
 		input.close();
@@ -185,7 +193,28 @@ public class TVFFile
 	 */
 	public static void write(File file, TVFFile tvf) throws IOException
 	{
-		DataOutputStream output = new DataOutputStream(new GZIPOutputStream(new FileOutputStream(file)));
+		write(file, tvf, true);
+	}
+	
+	/**
+	 * Writes a TVFFile
+	 * 
+	 * @param file The file to write to
+	 * @param tvf The TVFFile to write
+	 * @param compress Should the file be compressed
+	 * @throws IOException If something goes wrong
+	 */
+	public static void write(File file, TVFFile tvf, boolean compress) throws IOException
+	{
+		DataOutputStream output;
+		if (compress)
+		{
+			output = new DataOutputStream(new GZIPOutputStream(new FileOutputStream(file)));
+		}
+		else
+		{
+			output = new DataOutputStream(new FileOutputStream(file));
+		}
 		tvf.write(output);
 		output.close();
 	}
