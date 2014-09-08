@@ -30,6 +30,7 @@ public class TVFFace
 		data.writeByte(this.y);
 		data.writeByte(this.z);
 		data.writeByte(this.color);
+		data.write(this.lighting);
 	}
 
 	public static TVFFace read(DataInputStream data) throws IOException
