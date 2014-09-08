@@ -3,7 +3,7 @@ package net.turrem.tvf.color;
 public enum EnumDynamicColorMode
 {
 	MIX,
-	MULTIPLY,
+	MULT,
 	ADD,
 	SET;
 }
