@@ -1,8 +1,4 @@
-package net.turrem.tvf;
-
-import java.util.Arrays;
-import java.util.zip.GZIPInputStream;
-import java.util.zip.GZIPOutputStream;
+package net.turrem.voxel.tvf;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -10,17 +6,20 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.zip.GZIPInputStream;
+import java.util.zip.GZIPOutputStream;
 
 public class TVFFile
 {
 	/**
 	 * TVF file magic number
 	 */
-	public final byte[] magic = { 'T', 'V', 'F', 0x00 };
+	public final byte[] magic = { 'T', 'V', 'O', 'X' };
 	/**
 	 * Major file format version
 	 */
-	public final short majorVersion = 2;
+	public final short majorVersion = 3;
 	/**
 	 * Minor file format version
 	 */
@@ -40,7 +39,7 @@ public class TVFFile
 	
 	private void read(DataInputStream data) throws IOException
 	{
-		byte[] readMagic = new byte[3];
+		byte[] readMagic = new byte[4];
 		data.read(this.magic);
 		if (!Arrays.equals(this.magic, readMagic))
 		{
